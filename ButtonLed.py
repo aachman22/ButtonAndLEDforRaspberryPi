@@ -31,8 +31,8 @@ class ButtonLed():
         self.valueList = valueList
 
         count = 0
-        while(pinNum[count] != None):
-            setupGPIO(pinNum[count], value[count])
+        while(pinList[count] != None):
+            setupGPIO(pinList[count], value[count])
             count+=1
 
     def startButtons(self):
@@ -44,10 +44,13 @@ class ButtonLed():
 
         bList = [bOne,bTwo,bThree,bFour,bFive]
         count = 0
-
-        while(count<numCandidates) :
+        
+        while(true) :
             runButton(pinList[count], pinList[count+1], bList[count])
             count += 1
+            
+            if(count > numButtons):
+                count = 0
 
     def setupGPIO(self, pinNum, value):
         if value == "in":
@@ -58,8 +61,7 @@ class ButtonLed():
 
     def runButton(self, inPin, outPin, buttonValue):
         try:
-            while True:
-                button_state = GPIO.input(inPin)
+            button_state = GPIO.input(inPin)
             if button_state == False:
                 GPIO.output(outPin, True)
                 print(buttonValue)
