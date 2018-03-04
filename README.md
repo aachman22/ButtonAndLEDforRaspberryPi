@@ -25,7 +25,7 @@ Considering that the the pair of Button and Led are connected at these pairs :
 - Button 11 - LED 9
 
 ```python
-import buttonLed
+import ButtonLed
 
 btObject = buttonLed(numCandidates = 3, pressDelay = 2)
 btObject.setup([23,24,8,25,11,9],["in","out","in","out","in","out"])
