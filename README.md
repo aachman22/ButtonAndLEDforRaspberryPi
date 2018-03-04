@@ -27,7 +27,7 @@ Considering that the the pair of Button and Led are connected at these pairs :
 ```python
 import ButtonLed
 
-btObject = buttonLed(numCandidates = 3, pressDelay = 2)
+btObject = ButtonLed(numCandidates = 3, pressDelay = 2)
 btObject.setup([23,24,8,25,11,9],["in","out","in","out","in","out"])
 btObject.startButtons()
 ```
