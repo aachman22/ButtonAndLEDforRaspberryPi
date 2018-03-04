@@ -51,9 +51,6 @@ class ButtonLed():
             runButton(pinList[count], pinList[count+1], bList[count])
             count += 1
 
-        except:
-            GPIO.cleanup()
-
     def setupGPIO(self, pinNum, value):
         if value == "in":
             GPIO.setup(pinNum, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -62,8 +59,14 @@ class ButtonLed():
         pass
 
     def runButton(self, inPin, outPin, buttonValue):
-        button_state = GPIO.input(inPin)
-        if button_state == False:
-            GPIO.output(outPin, True)
-            print(buttonValue)
-            time.sleep(pressDelay)
+        try:
+            while True:
+                button_state = GPIO.input(inPin)
+            if button_state == False:
+                GPIO.output(outPin, True)
+                print(buttonValue)
+                time.sleep(pressDelay)
+            else:
+                GPIO.output(outPin, False)
+        except:
+            GPIO.cleanup()
