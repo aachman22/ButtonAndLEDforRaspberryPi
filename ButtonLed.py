@@ -5,9 +5,7 @@ GPIO.setmode(GPIO.BCM)
 
 class ButtonLed():
 
-    def __init__(self, numCandidates = 3, pressDelay = 2, bOne = "Button 1", bTwo = "Button 2", bThree = "Button 3", bFour = "Button 4", bFive = "Button 5"):
-        
-        super(VotingButtons, self).__init__()
+    def __init__(self, numButtons= 3, pressDelay = 2, bOne = "Button 1", bTwo = "Button 2", bThree = "Button 3", bFour = "Button 4", bFive = "Button 5"):
         self.numCandidates = numCandidates
         self.pressDelay = pressDelay
         self.bOne = bOne
