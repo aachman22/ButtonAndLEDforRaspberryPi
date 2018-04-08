@@ -13,7 +13,46 @@ class ButtonLed():
         self.bThree = bThree
         self.bFour = bFour
         self.bFive = bFive
+
+    def setUpNotif(self):
+        self.setupGPIO(16, "out")
+        self.setupGPIO(20, "out")
+        self.setupGPIO(21, "out")
+
+    def allNotifOn(self):
+        GPIO.output(16, True)
+        GPIO.output(20, True)
+        GPIO.output(21, True)
+
+
+    def allNotifOff(self):
+        GPIO.output(16, False)
+        GPIO.output(20, False)
+        GPIO.output(21, False)
+
         
+    def startProcessing(self):
+        for i in range(0, 8):
+            GPIO.output(16,True)
+            time.sleep(1)
+            GPIO.output(16,False)
+            GPIO.output(21,True)
+            time.sleep(1)
+            GPIO.output(21,False)
+
+    #def stopProcessing(self):
+    #    GPIO.output(20, False)
+
+    def showSuccess(self):
+        GPIO.output(16,True)
+        time.sleep(5)
+        GPIO.output(16,False)
+
+    def showFailure(self):
+        GPIO.output(21, True)
+        time.sleep(5)
+        GPIO.output(21,False)
+
     def setup(self, pinList, valueList):
 
         '''
@@ -34,6 +73,30 @@ class ButtonLed():
         while(count < self.numButtons * 2):
             self.setupGPIO(pinList[count], valueList[count])
             count+=1
+
+    def retrieveButton(self):
+        '''
+        Use this function to record a single instance of clicked button
+        Return Parameter :
+            retVal. Type = String, value = Name assigned to the pressed button
+        '''
+        self.retrieveCommand = True
+        self.clickFlag = False
+        bList = [self.bOne,self.bTwo,self.bThree,self.bFour,self.bFive]
+        count = 0
+        count2 = 0
+        
+        while(self.clickFlag == False) :
+            retVal = self.runButton(self.pinList[count], self.pinList[count+1], bList[count2])
+            count += 2
+            count2 += 1
+            
+            if(count == self.numButtons * 2):
+                count = 0
+                count2 = 0
+            
+            if(self.clickFlag == True):
+                return retVal
 
     def startButtons(self):
 
@@ -69,7 +132,10 @@ class ButtonLed():
                 GPIO.output(outPin, True)
                 print(buttonValue)
                 time.sleep(self.pressDelay)
+                if(self.retrieveCommand == True):
+                    self.clickFlag = True
+                    return buttonValue
             else:
                 GPIO.output(outPin, False)
         except:
-		    print("")
+            print("")
